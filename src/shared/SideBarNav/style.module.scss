@@ -1,0 +1,61 @@
+@import '../../styles/variable';
+
+.bar {
+    width: 300px;
+    position: relative;
+
+    @media(max-width: 1024px) {
+        display: none;
+    }
+}
+
+.barWrap{
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    min-height: 100%;
+    width: 250px;
+    border-radius: 0 20px 20px 0;
+
+    transition: all 0.5s;
+    padding: 10px 20px;
+
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 20px rgba(0, 0, 0, 0.12);
+}
+
+.barIcon{
+    margin: 0 auto;
+}
+
+.mainNav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
+
+    a {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+.roleNav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.roleNavList {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
