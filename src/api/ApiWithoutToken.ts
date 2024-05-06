@@ -6,10 +6,6 @@ import { message } from "antd";
 const api = axios.create({
   baseURL: import.meta.env.VITE_REACT_APP_API_URL,
   headers: {
-    "Cache-Control": "no-cache",
-    "Content-Type": "application/x-www-form-urlencoded",
-    "Access-Control-Allow-Origin": "*",
-    Accept: 'application/json',
     Cache: "no-cache",
     withCredentials: false,
   },

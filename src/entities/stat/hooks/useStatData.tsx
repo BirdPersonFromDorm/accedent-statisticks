@@ -5,6 +5,7 @@ import { Checkbox, Input, MenuProps } from "antd";
 import useRegionData from "./useRegionData";
 import useVictimsData from "./useVictimsData";
 import useFactorData from "../../factors/hooks/useFactorData";
+import useFactorDtpData from "./useFactorDtpData";
 
 export default function useStatData(): any{
 
@@ -23,6 +24,11 @@ export default function useStatData(): any{
     selectedStats: selectedStatsFactor,
   } = useFactorData()
 
+  const {
+    getFactorDTPFilterItems,
+    selectedStats: selectedStatsFactorDTP,
+  } = useFactorDtpData()
+
   const [dateStart, setDateStart] = useState<string>("");
   const [dateEnd, setDateEnd] = useState<string>("");
 
@@ -37,8 +43,23 @@ export default function useStatData(): any{
   }
 
   const { data: chertData, isLoading } = useQuery({
-    queryKey: ['STAT_DATA', selectedStatsRegion, selectedStatsVictim, selectedStatsFactor, dateStart, dateEnd],
-    queryFn: async() => await getStatData(selectedStatsRegion, selectedStatsVictim, selectedStatsFactor, dateStart, dateEnd),
+    queryKey: [
+      'STAT_DATA',
+      selectedStatsRegion,
+      selectedStatsVictim,
+      selectedStatsFactor,
+      selectedStatsFactorDTP,
+      dateStart,
+      dateEnd
+    ],
+    queryFn: async() => await getStatData(
+      selectedStatsRegion,
+      selectedStatsVictim,
+      selectedStatsFactor,
+      selectedStatsFactorDTP,
+      dateStart,
+      dateEnd
+    ),
     retryOnMount: false
   });
 
@@ -48,6 +69,7 @@ export default function useStatData(): any{
     getFactorFilterItems,
     getVictimsFilterItems,
     getRegionFilterItems,
+    getFactorDTPFilterItems,
     onChangeDate,
     isLoading,
   };

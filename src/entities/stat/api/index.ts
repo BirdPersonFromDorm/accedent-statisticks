@@ -5,6 +5,7 @@ export async function getStatData(
   selectedStatsRegion: any,
   selectedStatsVictim: any,
   selectedStatsFactor: any,
+  selectedStatsFactorDTP: any,
   dateStart: any,
   dateEnd: any
 ){
@@ -12,21 +13,24 @@ export async function getStatData(
   let params = new URLSearchParams();
 
   if (selectedStatsRegion && selectedStatsRegion?.length !== 0) {
-    params.append("region", selectedStatsRegion?.join(','));
+    params.append("region_code", selectedStatsRegion?.map((item: any) => item?.id)?.join(','));
   }
   if (selectedStatsVictim && selectedStatsVictim?.length !== 0) {
-    params.append("victim", selectedStatsVictim?.join(','));
+    params.append("victim", selectedStatsVictim?.map((item: any) => item?.id)?.join(','));
   }
   if (selectedStatsFactor && selectedStatsFactor?.length !== 0) {
-    params.append("factors", selectedStatsFactor?.join(','));
+    params.append("factors", selectedStatsFactor?.map((item: any) => item?.id)?.join(','));
+  }
+  if (selectedStatsFactorDTP && selectedStatsFactorDTP?.length !== 0) {
+    params.append("factors-dtp", selectedStatsFactorDTP?.map((item: any) => item?.id)?.join(','));
   }
 
   if (dateStart && dateEnd) {
-    params.append("updated_after", dayjs(dateStart).format('YYYY-MM-DD HH:mm:ss'));
-    params.append("updated_before", dayjs(dateEnd).format('YYYY-MM-DD HH:mm:ss'));
+    params.append("start_date", dayjs(dateStart).format('YYYY-MM-DD'));
+    params.append("end_date", dayjs(dateEnd).format('YYYY-MM-DD'));
   }
 
-  const response = await apiToken.get<any>(`/stat`,{
+  const response = await apiToken.get<any>(`/dtp-chart`,{
     params,
   });
 
@@ -37,7 +41,16 @@ export async function getStatData(
 }
 
 export async function getRegionData(){
-  const response = await apiToken.get<any>(`/region`);
+  const response = await apiToken.get<any>(`/regions`);
+  if (response?.status !== 200) {
+    throw new Error(response.data.message);
+  }
+  return response?.data;
+}
+
+
+export async function getFactorDTPData(){
+  const response = await apiToken.get<any>(`/dtp-factor`);
   if (response?.status !== 200) {
     throw new Error(response.data.message);
   }
@@ -46,7 +59,7 @@ export async function getRegionData(){
 
 
 export async function getVictimsData(){
-  const response = await apiToken.get<any>(`/victims`);
+  const response = await apiToken.get<any>(`/injured-list`);
   if (response?.status !== 200) {
     throw new Error(response.data.message);
   }

@@ -7,7 +7,7 @@ export default function useFactorDataByID(id: string): {
 }{
 
   const { data: brandDataById, isLoading } = useQuery({
-    queryKey: ['BRAND_DATA_BY_ID', id],
+    queryKey: ['FACTORS_DATA_BY_ID', id],
     queryFn: async(id: any) => await getFactorById(id),
     retryOnMount: false
   });

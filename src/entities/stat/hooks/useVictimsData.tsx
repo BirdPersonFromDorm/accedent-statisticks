@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { getRegionData, getVictimsData } from "../api/index";
+import { getVictimsData } from "../api/index";
 import { Checkbox, Input, MenuProps } from "antd";
 
 export default function useVictimsData(): {
@@ -23,14 +23,14 @@ export default function useVictimsData(): {
   const [searchStat, setSearchStat] = useState('')
 
   const getVictimsFilterItems = () => {
-    if (!victimsData) {
+    if (!victimsData?.data) {
       return [];
     }
 
     let allItems: any[] = [];
     let selectedItems: any[] = [];
 
-    victimsData?.slice(0, 10)?.forEach((item: any) => {
+    victimsData?.data?.slice(0, 10)?.forEach((item: any) => {
       const isDuplicate = selectedStats.some((statItem: any) => statItem?.id?.toString() === item?.id?.toString());
 
       if (!isDuplicate) {

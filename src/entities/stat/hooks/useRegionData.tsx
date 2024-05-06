@@ -7,7 +7,7 @@ export default function useRegionData(): any{
 
   const { data: regionData, isLoading } = useQuery({
     queryKey: ['REGION_DATA'],
-    queryFn: async() => await getVictimsData(),
+    queryFn: async() => await getRegionData(),
     retryOnMount: false
   });
 
@@ -15,14 +15,15 @@ export default function useRegionData(): any{
   const [searchStat, setSearchStat] = useState('')
 
   const getRegionFilterItems = () => {
-    if (!regionData) {
+    if (!regionData?.data) {
       return [];
     }
 
     let allItems: any[] = [];
     let selectedItems: any[] = [];
 
-    regionData?.slice(0, 10)?.forEach((item: any) => {
+    regionData?.data?.filter((item: any) => searchStat ? item?.region_name.toLowerCase().includes(searchStat.toLowerCase()) : item)
+      ?.forEach((item: any) => {
       const isDuplicate = selectedStats.some((statItem: any) => statItem?.id?.toString() === item?.id?.toString());
 
       if (!isDuplicate) {
@@ -36,7 +37,7 @@ export default function useRegionData(): any{
             >
               <Checkbox
                 style={{ width: '100%' }}
-                value={item.title}
+                value={item.region_name}
                 checked={selectedStats.some((statItem: any) => statItem?.id?.toString() === item?.id?.toString())}
                 onChange={(e) => {
                   let newSelectedStat = [...selectedStats];
@@ -48,7 +49,7 @@ export default function useRegionData(): any{
                   setSelectedStats(newSelectedStat);
                 }}
               >
-                {item.title}
+                {item.region_name}
               </Checkbox>
             </div>
           ),
@@ -71,7 +72,7 @@ export default function useRegionData(): any{
             >
               <Checkbox
                 style={{ width: '100%' }}
-                value={item.title}
+                value={item.region_name}
                 checked={selectedStats.some((statItem: any) => statItem?.id?.toString() === item?.id?.toString())}
                 onChange={(e) => {
                   let newSelectedStat = [...selectedStats];
@@ -83,7 +84,7 @@ export default function useRegionData(): any{
                   setSelectedStats(newSelectedStat);
                 }}
               >
-                {item.title}
+                {item.region_name}
               </Checkbox>
             </div>
           ),
@@ -117,7 +118,5 @@ export default function useRegionData(): any{
     getRegionFilterItems,
     selectedStats,
     setSelectedStats,
-    searchStat,
-    setSearchStat,
   };
 }

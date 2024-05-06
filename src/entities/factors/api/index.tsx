@@ -1,7 +1,7 @@
 import { apiToken } from "../../../api/ApiWithToken";
 
 export async function getFactorsData(currentPage: number, limit: number){
-  const response = await apiToken.get<any>(`/Factor?page=${currentPage}&limit=${limit}`);
+  const response = await apiToken.get<any>(`/analysis-factor?page=${currentPage}&limit=${limit}`);
   if (response?.status !== 200) {
     throw new Error(response.data.message);
   }

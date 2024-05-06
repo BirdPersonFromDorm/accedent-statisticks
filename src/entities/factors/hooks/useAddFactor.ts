@@ -15,7 +15,7 @@ export const useAddFactor = () => {
     async(data: string) => {
 
       await mutateAsync(data);
-      await queryClient?.invalidateQueries({ queryKey: ['BRANDS_DATA'] });
+      await queryClient?.invalidateQueries({ queryKey: ['FACTORS_DATA'] });
     },
     [mutateAsync]
   );

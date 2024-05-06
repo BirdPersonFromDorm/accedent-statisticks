@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styles from './style.module.scss';
-import { Checkbox, Col, DatePicker, Dropdown, Row, Typography, Input, MenuProps } from "antd";
+import { Checkbox, Col, DatePicker, Dropdown, Row, Typography, Input, MenuProps, Spin } from "antd";
 import MaxWithLayout from "../../../layouts/MaxWithLayout/index";
 import Icon from "@ant-design/icons";
 import PriceChart from "../components/PriceChart";
@@ -15,9 +15,11 @@ const HomeContent: FC = () => {
     getFactorFilterItems,
     getVictimsFilterItems,
     getRegionFilterItems,
+    getFactorDTPFilterItems,
     onChangeDate,
     isLoading,
   } = useStatData()
+
 
   return (
     <MaxWithLayout>
@@ -30,7 +32,7 @@ const HomeContent: FC = () => {
             width: '100%'
           }}
         >
-          <Col span={4}>
+          <Col span={5}>
             <Dropdown
               trigger={["click"]}
               placement={"bottomRight"}
@@ -45,7 +47,7 @@ const HomeContent: FC = () => {
               </div>
             </Dropdown>
           </Col>
-          <Col span={4}>
+          <Col span={5}>
             <Dropdown
               trigger={["click"]}
               placement="bottomRight"
@@ -61,7 +63,7 @@ const HomeContent: FC = () => {
               </div>
             </Dropdown>
           </Col>
-          <Col span={4}>
+          <Col span={5}>
             <Dropdown
               trigger={["click"]}
               placement="bottomRight"
@@ -69,7 +71,23 @@ const HomeContent: FC = () => {
               overlayClassName="dropdown-border"
             >
               <div className="analytics-header-dropdown">
-                <div>Фактор</div>
+                <div>Анализируемые фактор</div>
+                <Icon
+
+                  style={{ marginTop: "2px", fontSize: "10px" }}
+                />
+              </div>
+            </Dropdown>
+          </Col>
+          <Col span={5}>
+            <Dropdown
+              trigger={["click"]}
+              placement="bottomRight"
+              menu={{ items: getFactorDTPFilterItems() }}
+              overlayClassName="dropdown-border"
+            >
+              <div className="analytics-header-dropdown">
+                <div>Фактор ДТП</div>
                 <Icon
 
                   style={{ marginTop: "2px", fontSize: "10px" }}
@@ -79,14 +97,25 @@ const HomeContent: FC = () => {
           </Col>
           <Col span={10}>
             <RangePicker
-              style={{width: '350px'}}
+              style={{ width: '350px' }}
               onChange={onChangeDate}
-              showTime={{format: 'HH-mm-ss'}}
+              showTime={{ format: 'HH-mm-ss' }}
               placeholder={["Дата создания(от)", "Дата создания(до)"]}
               format={"DD.MM.YYYY HH:mm:ss"}
             />
           </Col>
         </Row>
+        {
+          isLoading &&
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 100
+          }}>
+              <Spin />
+          </div>
+        }
         <Row
           style={{
             marginTop: 20,
@@ -97,8 +126,8 @@ const HomeContent: FC = () => {
             width: '100%'
           }}
         >
-          <PriceChart chertData={chertData}/>
-          <PriceChart chertData={chertData}/>
+          <PriceChart chertData={chertData?.data} />
+          {/*<PriceChart chertData={chertData}/>*/}
         </Row>
       </div>
     </MaxWithLayout>

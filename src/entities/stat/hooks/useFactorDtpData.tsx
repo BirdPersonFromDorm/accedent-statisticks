@@ -1,31 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
-import { getFactorsData } from "../api/index";
 import React, { useState } from "react";
+import { getFactorDTPData, getRegionData, getVictimsData } from "../api/index";
 import { Checkbox, Input, MenuProps } from "antd";
 
-export default function useFactorData(): any{
+export default function useFactorDtpData(): any{
 
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [limit, setLimit] = useState<number>(10)
-
-  const { data: factorData, isLoading } = useQuery({
-    queryKey: ['FACTORS_DATA', currentPage, limit],
-    queryFn: async() => await getFactorsData(currentPage, limit),
+  const { data: factorDtpData, isLoading } = useQuery({
+    queryKey: ['FACTOR_DTP_DATA'],
+    queryFn: async() => await getFactorDTPData(),
     retryOnMount: false
   });
 
   const [selectedStats, setSelectedStats] = useState([])
   const [searchStat, setSearchStat] = useState('')
 
-  const getFactorFilterItems = () => {
-    if (!factorData?.data) {
+  const getFactorDTPFilterItems = () => {
+    if (!factorDtpData?.data) {
       return [];
     }
 
     let allItems: any[] = [];
     let selectedItems: any[] = [];
 
-    factorData?.data?.slice(0, 10)?.filter((item: any) => searchStat ? item?.region_name.toLowerCase().includes(searchStat.toLowerCase()) : item)
+    factorDtpData?.data?.filter((item: any) => searchStat ? item?.title.toLowerCase().includes(searchStat.toLowerCase()) : item)
       ?.forEach((item: any) => {
         const isDuplicate = selectedStats.some((statItem: any) => statItem?.id?.toString() === item?.id?.toString());
 
@@ -40,7 +37,7 @@ export default function useFactorData(): any{
               >
                 <Checkbox
                   style={{ width: '100%' }}
-                  value={item.name}
+                  value={item.title}
                   checked={selectedStats.some((statItem: any) => statItem?.id?.toString() === item?.id?.toString())}
                   onChange={(e) => {
                     let newSelectedStat = [...selectedStats];
@@ -52,7 +49,7 @@ export default function useFactorData(): any{
                     setSelectedStats(newSelectedStat);
                   }}
                 >
-                  {item.name}
+                  {item.title}
                 </Checkbox>
               </div>
             ),
@@ -75,7 +72,7 @@ export default function useFactorData(): any{
             >
               <Checkbox
                 style={{ width: '100%' }}
-                value={item.name}
+                value={item.title}
                 checked={selectedStats.some((statItem: any) => statItem?.id?.toString() === item?.id?.toString())}
                 onChange={(e) => {
                   let newSelectedStat = [...selectedStats];
@@ -87,7 +84,7 @@ export default function useFactorData(): any{
                   setSelectedStats(newSelectedStat);
                 }}
               >
-                {item.name}
+                {item.title}
               </Checkbox>
             </div>
           ),
@@ -116,15 +113,10 @@ export default function useFactorData(): any{
   };
 
   return {
-    brandsData: factorData,
-    currentPage,
-    setCurrentPage,
-    setLimit,
+    factorDtpData,
     isLoading,
+    getFactorDTPFilterItems,
     selectedStats,
     setSelectedStats,
-    searchStat,
-    setSearchStat,
-    getFactorFilterItems
   };
 }

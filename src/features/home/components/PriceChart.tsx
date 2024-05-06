@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import dayjs from "dayjs";
 
 interface ChartData {
   xCoords: string;
@@ -14,28 +15,18 @@ interface ChartProps {
 // const PriceChart: React.FC<ChartProps> = ({ data, title }) => {
 const PriceChart: React.FC<ChartProps> = ({  title= 'Название', chertData = [] }) => {
 
-  const data = [
-    {
-      id: 1,
-      xCoords: 1,
-      yCoords: 1,
-    },
-    {
-      id: 2,
-      xCoords: 2,
-      yCoords: 10,
-    },
-  ]
-
   return (
     <>
-      <LineChart width={1000} height={400} data={data}>
+      <h3>
+        График че-то там
+      </h3>
+      <LineChart  width={1000} height={400} data={chertData?.coords?.map((item: any) => ({...item, xcoords: dayjs(item?.xcoords).format('YYYY.MM.DD')}))}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="xCoords" />
+        <XAxis dataKey="xcoords" />
         <YAxis />
         {/*<Tooltip />*/}
         <Tooltip content={<CustomTooltip title={title} />} />
-        <Line type="monotone" dataKey="yCoords" stroke="#28C76F" strokeWidth={4} />
+        <Line type="monotone" dataKey="ycoords" stroke="#28C76F" strokeWidth={4} />
       </LineChart>
     </>
   );
@@ -43,7 +34,7 @@ const PriceChart: React.FC<ChartProps> = ({  title= 'Название', chertDat
 
 const CustomTooltip = ({ active, payload, label, title }: any) => {
   if (active && payload && payload.length) {
-    const { xCoords } = payload[0].payload;
+    const { xcoords } = payload[0].payload;
     const color = payload[0].color;
     return (
       <div style={{
@@ -57,9 +48,9 @@ const CustomTooltip = ({ active, payload, label, title }: any) => {
         border: '1px solid #d5d5d5'
       }}>
         <p>
-          {xCoords}
+          {xcoords}
           <p style={{ color: color }}>
-            {title}: {payload[0].payload.yCoords}
+            {title}: {payload[0].payload.ycoords}
           </p>
         </p>
       </div>

@@ -15,7 +15,7 @@ export const useDeleteFactor = () => {
     async (id: string) => {
 
       await mutateAsync(id);
-      await queryClient.invalidateQueries({ queryKey: ['BRANDS_DATA'] });
+      await queryClient.invalidateQueries({ queryKey: ['FACTORS_DATA'] });
     },
     [mutateAsync]
   );

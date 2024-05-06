@@ -20,8 +20,8 @@ export default function useUpdateFactor(): {
 
       const dataToSend = { id, data }
       await mutateAsync(dataToSend);
-      await queryClient.invalidateQueries({ queryKey: ['BRAND_DATA_BY_ID', id] });
-      await queryClient.invalidateQueries({ queryKey: ['BRANDS_DATA'] });
+      await queryClient.invalidateQueries({ queryKey: ['FACTORS_DATA_BY_ID', id] });
+      await queryClient.invalidateQueries({ queryKey: ['FACTORS_DATA'] });
     },
     [mutateAsync]
   );
