@@ -15,8 +15,8 @@ export async function getStatData(
   if (selectedStatsRegion && selectedStatsRegion?.length !== 0) {
     params.append("region_code", selectedStatsRegion?.map((item: any) => item?.id)?.join(','));
   }
-  if (selectedStatsVictim && selectedStatsVictim?.length !== 0) {
-    params.append("victim", selectedStatsVictim?.map((item: any) => item?.id)?.join(','));
+  if (selectedStatsVictim) {
+    params.append("victim", selectedStatsVictim);
   }
   if (selectedStatsFactor && selectedStatsFactor?.length !== 0) {
     params.append("factors", selectedStatsFactor?.map((item: any) => item?.id)?.join(','));

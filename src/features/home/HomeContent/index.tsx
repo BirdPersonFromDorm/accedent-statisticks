@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styles from './style.module.scss';
-import { Checkbox, Col, DatePicker, Dropdown, Row, Typography, Input, MenuProps, Spin } from "antd";
+import { Checkbox, Col, DatePicker, Dropdown, Row, Typography, Input, MenuProps, Spin, Select } from "antd";
 import MaxWithLayout from "../../../layouts/MaxWithLayout/index";
 import Icon from "@ant-design/icons";
 import PriceChart from "../components/PriceChart";
@@ -13,13 +13,14 @@ const HomeContent: FC = () => {
   const {
     chertData,
     getFactorFilterItems,
-    getVictimsFilterItems,
     getRegionFilterItems,
     getFactorDTPFilterItems,
     onChangeDate,
+    victimsData,
+    setSelectedStatsVictim,
+    selectedStatsVictim,
     isLoading,
   } = useStatData()
-
 
   return (
     <MaxWithLayout>
@@ -48,20 +49,25 @@ const HomeContent: FC = () => {
             </Dropdown>
           </Col>
           <Col span={5}>
-            <Dropdown
-              trigger={["click"]}
-              placement="bottomRight"
-              menu={{ items: getVictimsFilterItems() }}
-              overlayClassName="dropdown-border"
+            <Select
+              style={{
+                width: '100%',
+              }}
+              value={selectedStatsVictim}
+              placeholder="Пострадавшие"
+              filterOption={false}
+              onChange={(e: any, option: any) => {
+                setSelectedStatsVictim(e)
+              }}
             >
-              <div className="analytics-header-dropdown">
-                <div>Пострадавшие</div>
-                <Icon
-
-                  style={{ marginTop: "2px", fontSize: "10px" }}
-                />
-              </div>
-            </Dropdown>
+              {victimsData?.data?.map((option: any) => {
+                return (
+                  <Select.Option key={option?.id} value={option?.code}>
+                    {option?.title}
+                  </Select.Option>
+                );
+              })}
+            </Select>
           </Col>
           <Col span={5}>
             <Dropdown

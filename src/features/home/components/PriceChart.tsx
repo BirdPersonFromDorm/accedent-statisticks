@@ -12,7 +12,6 @@ interface ChartProps {
   title: string;
 }
 
-// const PriceChart: React.FC<ChartProps> = ({ data, title }) => {
 const PriceChart: React.FC<ChartProps> = ({ title = 'Название', chertData = [] }) => {
 
   console.log(chertData?.coords?.map((item: any) => ({ ...item, xcoords: dayjs(item?.xcoords).format('YYYY.MM.DD') })))

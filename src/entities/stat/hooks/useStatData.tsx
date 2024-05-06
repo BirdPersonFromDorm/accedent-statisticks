@@ -15,7 +15,8 @@ export default function useStatData(): any{
   } = useRegionData()
 
   const {
-    getVictimsFilterItems,
+    victimsData,
+    setSelectedStats: setSelectedStatsVictim,
     selectedStats: selectedStatsVictim,
   } = useVictimsData()
 
@@ -67,9 +68,11 @@ export default function useStatData(): any{
   return {
     chertData,
     getFactorFilterItems,
-    getVictimsFilterItems,
     getRegionFilterItems,
     getFactorDTPFilterItems,
+    victimsData,
+    setSelectedStatsVictim,
+    selectedStatsVictim,
     onChangeDate,
     isLoading,
   };
