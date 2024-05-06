@@ -13,17 +13,22 @@ interface ChartProps {
 }
 
 // const PriceChart: React.FC<ChartProps> = ({ data, title }) => {
-const PriceChart: React.FC<ChartProps> = ({  title= 'Название', chertData = [] }) => {
+const PriceChart: React.FC<ChartProps> = ({ title = 'Название', chertData = [] }) => {
 
+  console.log(chertData?.coords?.map((item: any) => ({ ...item, xcoords: dayjs(item?.xcoords).format('YYYY.MM.DD') })))
   return (
     <>
       <h3>
         График че-то там
       </h3>
-      <LineChart  width={1000} height={400} data={chertData?.coords?.map((item: any) => ({...item, xcoords: dayjs(item?.xcoords).format('YYYY.MM.DD')}))}>
+      <LineChart width={1000} height={400} data={chertData?.coords?.map((item: any) => ({
+        ...item,
+        ycoords: Number(item?.ycoords),
+        xcoords: dayjs(item?.xcoords).format('YYYY.MM.DD')
+      }))}>
         <CartesianGrid strokeDasharray="3 3" />
+        <YAxis dataKey="ycoords" />
         <XAxis dataKey="xcoords" />
-        <YAxis />
         {/*<Tooltip />*/}
         <Tooltip content={<CustomTooltip title={title} />} />
         <Line type="monotone" dataKey="ycoords" stroke="#28C76F" strokeWidth={4} />
