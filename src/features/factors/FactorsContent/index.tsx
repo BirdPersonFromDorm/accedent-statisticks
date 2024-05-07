@@ -136,14 +136,15 @@ const FactorsContent = () => {
             columns={columns}
             dataSource={analizFactor?.data || []}
             scroll={{ x: true }}
-            pagination={{
-              onChange: (page): any => setCurrentPage(page),
-              position: ["bottomCenter"],
-              pageSize: 10,
-              total: Number(analizFactor?.total),
-              showSizeChanger: false,
-              current: currentPage,
-            }}
+            pagination={false}
+            // pagination={{
+            //   onChange: (page): any => setCurrentPage(page),
+            //   position: ["bottomCenter"],
+            //   pageSize: 10,
+            //   total: Number(analizFactor?.total),
+            //   showSizeChanger: false,
+            //   current: currentPage,
+            // }}
           />
         </div>
 

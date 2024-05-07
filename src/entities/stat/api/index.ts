@@ -20,7 +20,7 @@ export async function getDTPChartData(
   }
 
   if (selectedStatsFactorDTP && selectedStatsFactorDTP?.length !== 0) {
-    params.append("factors-dtp", selectedStatsFactorDTP?.map((item: any) => item?.id)?.join(','));
+    params.append("factor_dtp_id", selectedStatsFactorDTP?.map((item: any) => item?.id)?.join(','));
   }
 
   if (dateStart && dateEnd) {

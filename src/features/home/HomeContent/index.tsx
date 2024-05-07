@@ -39,7 +39,6 @@ const HomeContent: FC = () => {
     onChangeDateFactorChart(data)
   }
 
-  console.log(factorChartData?.data)
   return (
     <MaxWithLayout>
       <div className={styles.homeСontent}>
