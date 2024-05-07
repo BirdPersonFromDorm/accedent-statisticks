@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getVictimsData } from "../api/index";
 import { Checkbox, Input, MenuProps } from "antd";
 
 export default function useVictimsData(): {
   victimsData: any | undefined;
   isLoading?: boolean;
-  getVictimsFilterItems: any | undefined;
   selectedStats?: any;
   setSelectedStats?: any;
 }{
@@ -17,7 +16,11 @@ export default function useVictimsData(): {
     retryOnMount: false
   });
 
-  const [selectedStats, setSelectedStats] = useState([])
+  const [selectedStats, setSelectedStats] = useState(null)
+
+  useEffect(() =>{
+    setSelectedStats(victimsData?.data?.[0]?.id)
+  },[victimsData])
 
   return {
     victimsData,

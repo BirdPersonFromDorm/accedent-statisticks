@@ -4,7 +4,9 @@ import { Checkbox, Col, DatePicker, Dropdown, Row, Typography, Input, MenuProps,
 import MaxWithLayout from "../../../layouts/MaxWithLayout/index";
 import Icon from "@ant-design/icons";
 import PriceChart from "../components/PriceChart";
-import useStatData from "../../../entities/stat/hooks/useStatData";
+import useDTPChartData from "../../../entities/stat/hooks/useDTPChartData";
+import useFactorData from "../../../entities/factors/hooks/useFactorData";
+import useFactorChartData from "../../../entities/stat/hooks/useFactorChartData";
 
 const { RangePicker } = DatePicker;
 
@@ -12,16 +14,32 @@ const HomeContent: FC = () => {
 
   const {
     chertData,
-    getFactorFilterItems,
     getRegionFilterItems,
     getFactorDTPFilterItems,
-    onChangeDate,
+    onChangeDate: onChangeDateDtpChart,
     victimsData,
     setSelectedStatsVictim,
     selectedStatsVictim,
     isLoading,
-  } = useStatData()
+  } = useDTPChartData()
 
+
+  const {
+    factorChartData,
+    onChangeDate: onChangeDateFactorChart,
+    analizFactor,
+    selectedAnalizFactor,
+    setSelectedAnalizFactor,
+    isLoading: isLoadingDtpChart,
+  } = useFactorChartData()
+
+
+  const onChangeDate = (data: any) => {
+    onChangeDateDtpChart(data)
+    onChangeDateFactorChart(data)
+  }
+
+  console.log(factorChartData?.data)
   return (
     <MaxWithLayout>
       <div className={styles.homeСontent}>
@@ -62,7 +80,7 @@ const HomeContent: FC = () => {
             >
               {victimsData?.data?.map((option: any) => {
                 return (
-                  <Select.Option key={option?.id} value={option?.code}>
+                  <Select.Option key={option?.id} value={option?.id}>
                     {option?.title}
                   </Select.Option>
                 );
@@ -70,20 +88,25 @@ const HomeContent: FC = () => {
             </Select>
           </Col>
           <Col span={5}>
-            <Dropdown
-              trigger={["click"]}
-              placement="bottomRight"
-              menu={{ items: getFactorFilterItems() }}
-              overlayClassName="dropdown-border"
+            <Select
+              style={{
+                width: '100%',
+              }}
+              value={selectedAnalizFactor}
+              placeholder="Анализируемые фактор"
+              filterOption={false}
+              onChange={(e: any, option: any) => {
+                setSelectedAnalizFactor(e)
+              }}
             >
-              <div className="analytics-header-dropdown">
-                <div>Анализируемые фактор</div>
-                <Icon
-
-                  style={{ marginTop: "2px", fontSize: "10px" }}
-                />
-              </div>
-            </Dropdown>
+              {analizFactor?.data?.map((option: any) => {
+                return (
+                  <Select.Option key={option?.id} value={option?.id}>
+                    {option?.name}
+                  </Select.Option>
+                );
+              })}
+            </Select>
           </Col>
           <Col span={5}>
             <Dropdown
@@ -105,36 +128,27 @@ const HomeContent: FC = () => {
             <RangePicker
               style={{ width: '350px' }}
               onChange={onChangeDate}
-              showTime={{ format: 'HH-mm-ss' }}
               placeholder={["Дата создания(от)", "Дата создания(до)"]}
-              format={"DD.MM.YYYY HH:mm:ss"}
+              format={"DD.MM.YYYY"}
             />
           </Col>
         </Row>
-        {
-          isLoading &&
-          <div style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 100
-          }}>
-              <Spin />
-          </div>
-        }
-        <Row
-          style={{
-            marginTop: 20,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 20,
-            width: '100%'
-          }}
-        >
-          <PriceChart chertData={chertData?.data} />
-          {/*<PriceChart chertData={chertData}/>*/}
-        </Row>
+
+        <Spin spinning={isLoading || isLoadingDtpChart}>
+          <Row
+            style={{
+              marginTop: 20,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 20,
+              width: '100%'
+            }}
+          >
+            <PriceChart chertData={chertData?.data} title={'График по факторам дтп'} />
+            <PriceChart chertData={factorChartData?.data} title={'График по анализируемым факторам'} />
+          </Row>
+        </Spin>
       </div>
     </MaxWithLayout>
   );

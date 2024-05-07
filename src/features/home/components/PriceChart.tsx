@@ -14,11 +14,10 @@ interface ChartProps {
 
 const PriceChart: React.FC<ChartProps> = ({ title = 'Название', chertData = [] }) => {
 
-  console.log(chertData?.coords?.map((item: any) => ({ ...item, xcoords: dayjs(item?.xcoords).format('YYYY.MM.DD') })))
   return (
     <>
       <h3>
-        График че-то там
+        {title}
       </h3>
       <LineChart width={1000} height={400} data={chertData?.coords?.map((item: any) => ({
         ...item,

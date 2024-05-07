@@ -19,7 +19,7 @@ import { useDeleteFactor } from "../../../entities/factors/hooks/useDeleteFactor
 const FactorsContent = () => {
 
   const {
-    brandsData,
+    analizFactor,
     currentPage,
     setCurrentPage,
     isLoading
@@ -134,13 +134,13 @@ const FactorsContent = () => {
             loading={isLoading || isLoadingDelete}
             className={"product-arrival-table"}
             columns={columns}
-            dataSource={brandsData?.result || []}
+            dataSource={analizFactor?.data || []}
             scroll={{ x: true }}
             pagination={{
               onChange: (page): any => setCurrentPage(page),
               position: ["bottomCenter"],
               pageSize: 10,
-              total: Number(brandsData?.total),
+              total: Number(analizFactor?.total),
               showSizeChanger: false,
               current: currentPage,
             }}
