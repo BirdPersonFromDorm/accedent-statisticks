@@ -49,13 +49,6 @@ export default function AddModal({
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          rules={[{ required: true }]}
-          name={"description"}
-          label={"Описание"}
-        >
-          <Input />
-        </Form.Item>
 
         <Col style={{ display: "flex", gap: "15px" }}>
           <Button

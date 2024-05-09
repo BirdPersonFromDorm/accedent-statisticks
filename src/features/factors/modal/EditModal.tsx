@@ -33,14 +33,13 @@ export default function EditModal({
 
   useEffect(() => {
     form?.setFieldsValue({
-      name: brandDataById?.name,
-      description: brandDataById?.description
+      name: brandDataById?.data?.[0]?.name,
     })
   }, [brandDataById])
 
   useEffect(() =>{
     if (isSuccess){
-      message.success('Вы успешно обновили данные')
+      message.success('Вы успешно изменили данные')
     }
   },[isSuccess])
 
@@ -75,14 +74,6 @@ export default function EditModal({
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          rules={[{ required: true }]}
-          name={"description"}
-          label={"Описание"}
-        >
-          <Input />
-        </Form.Item>
-
         <Col style={{ display: "flex", gap: "15px" }}>
           <Button
             type={"primary"}

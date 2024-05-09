@@ -1,7 +1,7 @@
 import { apiToken } from "../../../api/ApiWithToken";
 
 export async function getAnalysisData(currentPage: number, limit: number){
-  const response = await apiToken.get<any>(`/Analysis?page=${currentPage}&limit=${limit}`);
+  const response = await apiToken.get<any>(`/analysis-methods?page=${currentPage}&limit=${limit}`);
   if (response?.status !== 200) {
     throw new Error(response.data.message);
   }
@@ -9,7 +9,7 @@ export async function getAnalysisData(currentPage: number, limit: number){
 }
 
 export async function addAnalysi(data: any){
-  const response = await apiToken.post<any>(`/Analysis`, data);
+  const response = await apiToken.post<any>(`/analysis-methods`, data);
   if (response?.status !== 201) {
     throw new Error(response.data.message);
   }
@@ -17,7 +17,7 @@ export async function addAnalysi(data: any){
 }
 
 export async function deleteAnalysis(id: string){
-  const response = await apiToken.delete<any>(`/Analysis/${id}`);
+  const response = await apiToken.delete<any>(`/analysis-methods/${id}`);
   if (response?.status !== 200) {
     throw new Error(response.data.message);
   }
@@ -25,7 +25,7 @@ export async function deleteAnalysis(id: string){
 }
 
 export async function getAnalysisById(id: any){
-  const response = await apiToken.get<any>(`/Analysis/${id?.queryKey?.[1]}`);
+  const response = await apiToken.get<any>(`/analysis-methods/${id?.queryKey?.[1]}`);
   if (response?.status !== 200) {
     throw new Error(response.data.message);
   }
@@ -34,7 +34,7 @@ export async function getAnalysisById(id: any){
 
 export async function patchLocation(data: any){
   const response = await apiToken.patch<any>(
-    `/Analysis/${data?.id}`,
+    `/analysis-methods/${data?.id}`,
     {
       ...data?.data
     }

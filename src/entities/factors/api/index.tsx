@@ -9,15 +9,15 @@ export async function getFactorsData(currentPage: number, limit: number){
 }
 
 export async function addFactor(data: any){
-  const response = await apiToken.post<any>(`/Factor`, data);
-  if (response?.status !== 201) {
+  const response = await apiToken.post<any>(`/analysis-factor`, data);
+  if (response?.status !== 200) {
     throw new Error(response.data.message);
   }
   return response.data.data;
 }
 
 export async function deleteFactor(id: string){
-  const response = await apiToken.delete<any>(`/Factor/${id}`);
+  const response = await apiToken.delete<any>(`/analysis-factor/${id}`);
   if (response?.status !== 200) {
     throw new Error(response.data.message);
   }
@@ -25,7 +25,7 @@ export async function deleteFactor(id: string){
 }
 
 export async function getFactorById(id: any){
-  const response = await apiToken.get<any>(`/Factor/${id?.queryKey?.[1]}`);
+  const response = await apiToken.get<any>(`/analysis-factor/${id?.queryKey?.[1]}`);
   if (response?.status !== 200) {
     throw new Error(response.data.message);
   }
@@ -34,7 +34,7 @@ export async function getFactorById(id: any){
 
 export async function patchFactor(data: any){
   const response = await apiToken.patch<any>(
-    `/Factor/${data?.id}`,
+    `/analysis-factor/${data?.id}`,
     {
       ...data?.data
     }

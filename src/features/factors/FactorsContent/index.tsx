@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import {
   Button,
@@ -27,7 +27,7 @@ const FactorsContent = () => {
 
   const {
     handleDelete,
-    isLoading: isLoadingDelete
+    isLoading: isLoadingDelete,
   } = useDeleteFactor()
 
 

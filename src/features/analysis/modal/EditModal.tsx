@@ -7,6 +7,7 @@ import {
 import React, { useEffect } from "react";
 import useAnalysisDataByID from "../../../entities/analysis/hooks/useAnalysisDataByID";
 import useAnalysisLocationUpdate from "../../../entities/analysis/hooks/useAnalysisLocationUpdate";
+import ModalHeader from "../../shared/ModalHeader";
 
 export default function EditModal({
                                     onClose,
@@ -32,13 +33,14 @@ export default function EditModal({
 
   useEffect(() => {
     form?.setFieldsValue({
-      name: locationDataById?.name
+      name: locationDataById?.data?.[0]?.name,
+      formula: locationDataById?.data?.[0]?.formula
     })
   }, [locationDataById])
 
   useEffect(() =>{
     if (isSuccess){
-      message.success('Вы успешно обновили данные')
+      message.success('Вы успешно изменили данные')
     }
   },[isSuccess])
 
@@ -70,6 +72,13 @@ export default function EditModal({
           rules={[{ required: true }]}
           name={"name"}
           label={"Название"}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          rules={[{ required: true }]}
+          name={"formula"}
+          label={"Формула"}
         >
           <Input />
         </Form.Item>

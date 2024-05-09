@@ -22,6 +22,6 @@ export const useDeleteFactor = () => {
 
   return {
     handleDelete,
-    isLoading: isPending
+    isLoading: isPending,
   };
 };

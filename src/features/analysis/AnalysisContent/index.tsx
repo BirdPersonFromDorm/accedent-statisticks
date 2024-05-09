@@ -96,16 +96,16 @@ const AnalysisContent = () => {
   };
 
   const columns = [
-    // {
-    //   title: "id",
-    //   dataIndex: "id",
-    //   key: "id",
-    //   width: "45%",
-    // },
     {
       title: "Название",
       dataIndex: "name",
       key: "name",
+      width: "45%",
+    },
+    {
+      title: "Формула",
+      dataIndex: "formula",
+      key: "formula",
       width: "45%",
     },
     {
@@ -149,16 +149,9 @@ const AnalysisContent = () => {
             loading={isLoading || isLoadingDelete}
             className={"product-arrival-table"}
             columns={columns}
-            dataSource={locationData?.result || []}
+            dataSource={locationData?.data || []}
             scroll={{ x: true }}
-            pagination={{
-              onChange: (page): any => setCurrentPage(page),
-              position: ["bottomCenter"],
-              pageSize: 10,
-              total: Number(locationData?.total),
-              showSizeChanger: false,
-              current: currentPage,
-            }}
+            pagination={false}
           />
         </div>
 
