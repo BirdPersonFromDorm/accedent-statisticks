@@ -136,7 +136,7 @@ const ExtraStatDataBlock = ({
             {extraStatData?.data?.slau1}
           </p>
           <p>
-            {extraStatData?.data?.slau1}
+            {extraStatData?.data?.slau2}
           </p>
         </div>
       </div>
