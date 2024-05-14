@@ -38,6 +38,33 @@ export async function getDTPChartData(
   return response?.data;
 }
 
+export async function getExtraStatData(
+  selectedStatsFactorDTP: any,
+  dateStart: any,
+  dateEnd: any
+){
+
+  let params = new URLSearchParams();
+
+  if (selectedStatsFactorDTP) {
+    params.append("analysis_factor_id", selectedStatsFactorDTP);
+  }
+
+  if (dateStart && dateEnd) {
+    params.append("start_date", dayjs(dateStart).format('YYYY-MM-DD'));
+    params.append("end_date", dayjs(dateEnd).format('YYYY-MM-DD'));
+  }
+
+  const response = await apiToken.get<any>(`/analysis-correlation/calc`,{
+    params,
+  });
+
+  if (response?.status !== 200) {
+    throw new Error(response.data.message);
+  }
+  return response?.data;
+}
+
 export async function getFactorChartData(
   selectedFactorId: any,
   dateStart: any,

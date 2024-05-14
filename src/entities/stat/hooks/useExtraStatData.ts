@@ -7,23 +7,9 @@ import useVictimsData from "./useVictimsData";
 import useFactorData from "../../factors/hooks/useFactorData";
 import useFactorDtpData from "./useFactorDtpData";
 
-export default function useDTPChartData(): any{
+export default function useExtraStatData(): any{
 
-  const {
-    getRegionFilterItems,
-    selectedStats: selectedStatsRegion,
-  } = useRegionData()
-
-  const {
-    victimsData,
-    setSelectedStats: setSelectedStatsVictim,
-    selectedStats: selectedStatsVictim,
-  } = useVictimsData()
-
-  const {
-    getFactorDTPFilterItems,
-    selectedStats: selectedStatsFactorDTP,
-  } = useFactorDtpData()
+  const [selectedAnalizFactorForExtraStat, setSelectedAnalizFactorForExtraStat] = useState<string>("");
 
   const [dateStart, setDateStart] = useState<string>("");
   const [dateEnd, setDateEnd] = useState<string>("");
@@ -38,34 +24,15 @@ export default function useDTPChartData(): any{
     }
   }
 
-  const { data: chertData, isLoading } = useQuery({
-    queryKey: [
-      'DTP_CHART_DATA',
-      selectedStatsFactorDTP,
-      dateStart,
-      dateEnd
-    ],
-    queryFn: async() => await getDTPChartData(
-      selectedStatsFactorDTP,
-      dateStart,
-      dateEnd
-    ),
-    retryOnMount: false
-  });
-
   const { data: extraStatData, isLoading: isLoadingExtraStatData } = useQuery({
     queryKey: [
       'EXTRA_STAT_DATA',
-      selectedStatsRegion,
-      selectedStatsVictim,
-      selectedStatsFactorDTP,
+      selectedAnalizFactorForExtraStat,
       dateStart,
       dateEnd
     ],
     queryFn: async() => await getExtraStatData(
-      selectedStatsRegion,
-      selectedStatsVictim,
-      selectedStatsFactorDTP,
+      selectedAnalizFactorForExtraStat,
       dateStart,
       dateEnd
     ),
@@ -74,13 +41,9 @@ export default function useDTPChartData(): any{
 
 
   return {
-    chertData,
-    getRegionFilterItems,
-    getFactorDTPFilterItems,
-    victimsData,
-    setSelectedStatsVictim,
-    selectedStatsVictim,
+    extraStatData,
     onChangeDate,
-    isLoading,
+    isLoadingExtraStatData,
+    setSelectedAnalizFactorForExtraStat,
   };
 }

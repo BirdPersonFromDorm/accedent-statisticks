@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine } from 'recharts';
 import dayjs from "dayjs";
 
 interface ChartData {
@@ -12,24 +12,40 @@ interface ChartProps {
   title: string;
 }
 
-const PriceChart: React.FC<ChartProps> = ({ title = 'Название', chertData = [] }) => {
+const CustomChart: React.FC<ChartProps> = ({
+                                            title = 'Название',
+                                            chertData = [],
+                                            isDots = false,
+                                          }) => {
 
   return (
     <>
       <h3>
         {title}
       </h3>
-      <LineChart width={1000} height={400} data={chertData?.coords?.map((item: any) => ({
-        ...item,
-        ycoords: Number(item?.ycoords),
-        xcoords: dayjs(item?.xcoords).format('YYYY.MM.DD')
-      }))}>
+      <LineChart
+        width={1000}
+        height={400}
+        data={chertData?.coords?.map((item: any) => ({
+          ...item,
+          ycoords: Number(item?.ycoords),
+          xcoords: dayjs(item?.xcoords).format('YYYY.MM.DD'),
+        }))}
+      >
+
         <CartesianGrid strokeDasharray="3 3" />
         <YAxis dataKey="ycoords" />
         <XAxis dataKey="xcoords" />
         {/*<Tooltip />*/}
         <Tooltip content={<CustomTooltip title={title} />} />
-        <Line type="monotone" dataKey="ycoords" stroke="#28C76F" strokeWidth={4} />
+        <Line
+          type="monotone"
+          dataKey="ycoords"
+          stroke={isDots ? 'transparent' : "#28C76F"}
+          strokeWidth={4}
+          dot={{ stroke: '#28C76F', strokeWidth: 2, r: 5 }} // Customizing the dots
+          activeDot={{ r: 8 }} // Customizing the active dot
+        />
       </LineChart>
     </>
   );
@@ -63,4 +79,4 @@ const CustomTooltip = ({ active, payload, label, title }: any) => {
   return null;
 };
 
-export default PriceChart;
+export default CustomChart;

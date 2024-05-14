@@ -1,12 +1,15 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import { Checkbox, Col, DatePicker, Dropdown, Row, Typography, Input, MenuProps, Spin, Select } from "antd";
 import MaxWithLayout from "../../../layouts/MaxWithLayout/index";
 import Icon from "@ant-design/icons";
-import PriceChart from "../components/PriceChart";
+import CustomChart from "../components/CustomChart";
 import useDTPChartData from "../../../entities/stat/hooks/useDTPChartData";
 import useFactorData from "../../../entities/factors/hooks/useFactorData";
 import useFactorChartData from "../../../entities/stat/hooks/useFactorChartData";
+import useExtraStatData from "../../../entities/stat/hooks/useExtraStatData";
+import CustomChartExtraStat from "../components/CustomChartExtraStat";
+import ExtraStatDataBlock from "../components/ExtraStatDataBlock";
 
 const { RangePicker } = DatePicker;
 
@@ -23,7 +26,6 @@ const HomeContent: FC = () => {
     isLoading,
   } = useDTPChartData()
 
-
   const {
     factorChartData,
     onChangeDate: onChangeDateFactorChart,
@@ -33,11 +35,24 @@ const HomeContent: FC = () => {
     isLoading: isLoadingDtpChart,
   } = useFactorChartData()
 
+  const {
+    extraStatData,
+    onChangeDate: onChangeDateExtraStatData,
+    isLoadingExtraStatData,
+    setSelectedAnalizFactorForExtraStat,
+  } = useExtraStatData()
+
+  console.log(extraStatData)
 
   const onChangeDate = (data: any) => {
     onChangeDateDtpChart(data)
     onChangeDateFactorChart(data)
+    onChangeDateExtraStatData(data)
   }
+
+  useEffect(() =>{
+    setSelectedAnalizFactorForExtraStat(selectedAnalizFactor)
+  },[selectedAnalizFactor])
 
   return (
     <MaxWithLayout>
@@ -144,8 +159,13 @@ const HomeContent: FC = () => {
               width: '100%'
             }}
           >
-            <PriceChart chertData={chertData?.data} title={'График по факторам дтп'} />
-            <PriceChart chertData={factorChartData?.data} title={'График по анализируемым факторам'} />
+            <CustomChart chertData={chertData?.data} title={'График по факторам дтп'} />
+            <CustomChart chertData={factorChartData?.data} title={'График по анализируемым факторам'} />
+
+            <ExtraStatDataBlock
+              extraStatData={extraStatData}
+              isLoadingExtraStatData={isLoadingExtraStatData}
+            />
           </Row>
         </Spin>
       </div>
