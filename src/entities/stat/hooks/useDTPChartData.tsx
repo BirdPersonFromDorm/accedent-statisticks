@@ -41,11 +41,15 @@ export default function useDTPChartData(): any{
   const { data: chertData, isLoading } = useQuery({
     queryKey: [
       'DTP_CHART_DATA',
+      selectedStatsRegion,
+      selectedStatsVictim,
       selectedStatsFactorDTP,
       dateStart,
       dateEnd
     ],
     queryFn: async() => await getDTPChartData(
+      selectedStatsRegion,
+      selectedStatsVictim,
       selectedStatsFactorDTP,
       dateStart,
       dateEnd
