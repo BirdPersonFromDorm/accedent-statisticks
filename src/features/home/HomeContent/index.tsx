@@ -42,7 +42,6 @@ const HomeContent: FC = () => {
     setSelectedAnalizFactorForExtraStat,
   } = useExtraStatData()
 
-  console.log(extraStatData)
 
   const onChangeDate = (data: any) => {
     onChangeDateDtpChart(data)

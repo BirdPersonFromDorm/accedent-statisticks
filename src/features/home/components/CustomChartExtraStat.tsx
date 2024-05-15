@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, Layer } from 'recharts';
 import dayjs from "dayjs";
+import {
+  ScatterChart, Scatter, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ComposedChart, Area, Bar
+} from 'recharts';
 
 interface ChartData {
   xCoords: string;
@@ -21,56 +23,51 @@ const CustomChartExtraStat: React.FC<ChartProps> = ({
                                                       par4
                                                     }) => {
 
-  const customLineData = [
-    { xcoords: Number(par1), ycoords: Math.floor(Number(par2))},
-    { xcoords: Number(par3), ycoords:  Math.floor(Number(par4))}
-  ];
+  const data = [...chertData]?.map((item: any) => ({
+    ycoords: item?.ycoords ? Number(item?.ycoords) : null,
+    ycoords1:
+      Number(par1) === item?.xcoords
+        ? Number(par2.toFixed(0))
+        : Number(par3) === item?.xcoords
+        ? Number(par4.toFixed(0))
+        : null,
+    xcoords: Number(item?.xcoords),
+  })).sort((a, b) => a.xcoords - b.xcoords)
 
   return (
-    <>
-      <h3>
-        {title}
-      </h3>
-      <LineChart
-        width={1000}
-        height={400}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <YAxis dataKey="ycoords" />
-        <XAxis dataKey="xcoords" />
-        {/*<Tooltip />*/}
-        <Tooltip content={<CustomTooltip title={title} />} />
+    <ComposedChart
+      width={1000}
+      height={400}
+      data={data}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <YAxis dataKey="ycoords" />
+      <XAxis dataKey="xcoords" />
+      {/*<Tooltip />*/}
+      <Tooltip content={<CustomTooltip title={title} />} />
+      <Line
+        type="baseLine"
+        dataKey="ycoords1"
+        stroke="#ff7300"
+        legendType={'line'}
+        strokeWidth={5}
+        connectNulls={true}
+      />
 
-        <Line
-          type="monotone"
-          data={customLineData}
-          dataKey="ycoords"
-          stroke="red"
-          strokeWidth={5}
-          dot={false}
-        />
-        <Line
-          data={chertData?.coords?.map((item: any) => ({
-            ...item,
-            ycoords: Number(item?.ycoords),
-            xcoords: Number(item?.xcoords),
-          })).sort((a, b) => a.xcoords - b.xcoords)}
-          type="monotone"
-          dataKey="ycoords"
-          stroke={"transparent"}
-          strokeWidth={4}
-          dot={{ stroke: '#28C76F', strokeWidth: 2, r: 5 }} // Customizing the dots
-          activeDot={{ r: 8 }} // Customizing the active dot
-        />
-      </LineChart>
-    </>
-  );
+      <Scatter
+        type="monotone"
+        dataKey="ycoords"
+        stroke="#000"
+      />
+
+    </ComposedChart>
+  )
 };
 
 const CustomTooltip = ({ active, payload, label, title }: any) => {
   if (active && payload && payload.length) {
 
-    const { xcoords, ycoords } = payload[0].payload;
+    const { xcoords, ycoords, ycoords1 } = payload[0].payload;
 
     return (
       <div style={{
@@ -84,9 +81,9 @@ const CustomTooltip = ({ active, payload, label, title }: any) => {
         border: '1px solid #d5d5d5'
       }}>
         <p>
-          {xcoords}
+          x: {xcoords}
           <p>
-            {title}: {ycoords}
+            y: {ycoords || ycoords1}
           </p>
         </p>
       </div>

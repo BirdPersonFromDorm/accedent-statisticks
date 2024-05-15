@@ -165,7 +165,7 @@ const ExtraStatDataBlock = ({
 
       <div className="p10">
         <CustomChartExtraStat
-          chertData={extraStatData?.data}
+          chertData={extraStatData?.data?.coords}
           title={'Уравнение линейной регрессии Y на X'}
           par1={extraStatData?.data?.lineX1}
           par2={extraStatData?.data?.lineY1}
