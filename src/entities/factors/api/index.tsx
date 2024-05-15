@@ -24,6 +24,14 @@ export async function deleteFactor(id: string){
   return response.data.data;
 }
 
+export async function deleteFactorConnectData(id: string){
+  const response = await apiToken.delete<any>(`/files/${id}`);
+  if (response?.status !== 200) {
+    throw new Error(response.data.message);
+  }
+  return response.data.data;
+}
+
 export async function getFactorById(id: any){
   const response = await apiToken.get<any>(`/analysis-factor/${id?.queryKey?.[1]}`);
   if (response?.status !== 200) {

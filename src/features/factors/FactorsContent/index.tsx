@@ -5,7 +5,7 @@ import {
   Table,
   Modal,
   Dropdown,
-  MenuProps,
+  MenuProps, Upload, message, UploadFile,
 } from "antd";
 import MaxWithLayout from "../../../layouts/MaxWithLayout/index";
 import EditIcon from "../../../assets/Icons/EditIcon";
@@ -15,6 +15,10 @@ import AddModal from "../modal/AddModal";
 import EditModal from "../modal/EditModal";
 import useFactorData from "../../../entities/factors/hooks/useFactorData";
 import { useDeleteFactor } from "../../../entities/factors/hooks/useDeleteFactor";
+import { deleteFactorConnectData } from "../../../entities/factors/api/index";
+import { useDeleteConnectedData } from "../../../entities/factors/hooks/useDeleteConnectedData";
+import { UploadChangeParam } from "antd/es/upload";
+import { DownloadButton } from "../components/DownloadButton";
 
 const FactorsContent = () => {
 
@@ -30,12 +34,28 @@ const FactorsContent = () => {
     isLoading: isLoadingDelete,
   } = useDeleteFactor()
 
+  const {
+    handleDelete: handleDeleteConneectedData,
+    isLoading: isLoadingDeleteConnectedData,
+  } = useDeleteConnectedData()
+
 
   const [isOpenModalAdd, setIsOpenModalAdd] = useState<boolean>(false)
-  const [isOpenModalEdit, setIsOpenModalEdit] = useState<{id: string | null, isOpen: boolean}>({
+  const [isOpenModalEdit, setIsOpenModalEdit] = useState<{ id: string | null, isOpen: boolean }>({
     id: null,
     isOpen: false
   })
+
+  const uploadChanged = (event: UploadChangeParam<UploadFile<any>>) => {
+    if (event.file.status !== 'uploading') {
+      console.log(event.file, event.fileList);
+    }
+    if (event.file.status === 'done') {
+      message.success(`${event.file.name} file uploaded successfully`);
+    } else if (event.file.status === 'error') {
+      message.error(`${event.file.name} file upload failed.`);
+    }
+  }
 
   const productsItemsForEdit: MenuProps["items"] = [
     {
@@ -64,6 +84,24 @@ const FactorsContent = () => {
         </span>
       ),
       key: "DELETE",
+    },
+    {
+      label: (
+        <span
+          style={{
+            display: "flex",
+            gap: "10px",
+            // color: isLoadingDelete ? '#e0e0e0' : 'red',
+            color: 'red',
+            width: 180,
+            // pointerEvents: isLoadingDelete ? 'none' : 'auto'
+            pointerEvents: 'auto'
+          }}>
+          <BucketIcon />
+          Удалить привязанные данные
+        </span>
+      ),
+      key: "DELETE_CONNECTED_DATA",
     }
   ];
 
@@ -81,6 +119,9 @@ const FactorsContent = () => {
           case "DELETE":
             handleDelete(record?.id)
             break;
+          case "DELETE_CONNECTED_DATA":
+            handleDeleteConneectedData(record?.id)
+            break;
         }
       },
     };
@@ -92,6 +133,35 @@ const FactorsContent = () => {
       dataIndex: "name",
       key: "name",
       width: "30%",
+    },
+    {
+      title: "",
+      dataIndex: "action1",
+      key: "action1",
+      width: "30%",
+      render: (text, record) =>{
+        return(
+          <Upload
+            style={{
+              color: text ? '#000' : '#000'
+            }}
+            showUploadList={{ showRemoveIcon: true }}
+            onChange={uploadChanged}
+            action={`${import.meta.env.VITE_REACT_APP_API_URL}/files/upload/${record?.id}`}
+            accept=".xls, .xlsx"
+          >
+            <div style={{display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer'}}>
+              <label
+                style={{
+                  color: '#4C78EE'
+                }}
+              >
+                Прикрепить подтверждающий документ
+              </label>
+            </div>
+          </Upload>
+        )
+      }
     },
     {
       title: "",
@@ -126,12 +196,13 @@ const FactorsContent = () => {
           <Button onClick={() => setIsOpenModalAdd(true)}>
             Добавить
           </Button>
+          <DownloadButton />
         </div>
 
         <div className={styles.table}>
 
           <Table
-            loading={isLoading || isLoadingDelete}
+            loading={isLoading || isLoadingDelete || isLoadingDeleteConnectedData}
             className={"product-arrival-table"}
             columns={columns}
             dataSource={analizFactor?.data || []}
