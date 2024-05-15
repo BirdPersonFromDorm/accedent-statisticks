@@ -57,26 +57,6 @@ export default function useDTPChartData(): any{
     retryOnMount: false
   });
 
-  const { data: extraStatData, isLoading: isLoadingExtraStatData } = useQuery({
-    queryKey: [
-      'EXTRA_STAT_DATA',
-      selectedStatsRegion,
-      selectedStatsVictim,
-      selectedStatsFactorDTP,
-      dateStart,
-      dateEnd
-    ],
-    queryFn: async() => await getExtraStatData(
-      selectedStatsRegion,
-      selectedStatsVictim,
-      selectedStatsFactorDTP,
-      dateStart,
-      dateEnd
-    ),
-    retryOnMount: false
-  });
-
-
   return {
     chertData,
     getRegionFilterItems,

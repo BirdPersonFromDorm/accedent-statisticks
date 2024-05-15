@@ -22,7 +22,7 @@ const ExtraStatDataBlock = ({
                 Сумма:
             </div>
             }
-            {text}
+            {Number(text)?.toFixed(2)}
           </div>
         )
       }
@@ -39,7 +39,7 @@ const ExtraStatDataBlock = ({
                 Сумма:
             </div>
             }
-            {text}
+            {Number(text)?.toFixed(2)}
           </div>
         )
       }
@@ -56,7 +56,7 @@ const ExtraStatDataBlock = ({
                 Сумма:
             </div>
             }
-            {Number(record?.xcoords) * Number(record?.ycoords)}
+            {(Number(record?.xcoords) * Number(record?.ycoords))?.toFixed(2)}
           </div>
         )
       }
@@ -73,7 +73,7 @@ const ExtraStatDataBlock = ({
                 Сумма:
             </div>
             }
-            {Math.pow(Number(record?.xcoords), 2)}
+            {Math.pow(Number(record?.xcoords), 2)?.toFixed(2)}
           </div>
         )
       }
@@ -90,7 +90,7 @@ const ExtraStatDataBlock = ({
                 Сумма:
             </div>
             }
-            {Math.pow(Number(record?.ycoords), 2)}
+            {Math.pow(Number(record?.ycoords), 2)?.toFixed(2)}
           </div>
         )
       }
