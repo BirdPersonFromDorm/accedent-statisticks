@@ -10,6 +10,9 @@ import useFactorDtpData from "./useFactorDtpData";
 export default function useExtraStatData(): any{
 
   const [selectedAnalizFactorForExtraStat, setSelectedAnalizFactorForExtraStat] = useState<string>("");
+  const [selectedDTPFactorForExtraStat, setSelectedDTPFactorForExtraStat] = useState<string>("");
+  const [selectedVictimForExtraStat, setSelectedVictimForExtraStat] = useState<string>("");
+  const [selectedRegionExtraStat, setSelectedRegionExtraStat] = useState<any>(null);
 
   const [dateStart, setDateStart] = useState<string>("");
   const [dateEnd, setDateEnd] = useState<string>("");
@@ -28,11 +31,17 @@ export default function useExtraStatData(): any{
     queryKey: [
       'EXTRA_STAT_DATA',
       selectedAnalizFactorForExtraStat,
+      selectedVictimForExtraStat,
+      selectedDTPFactorForExtraStat,
+      selectedRegionExtraStat,
       dateStart,
       dateEnd
     ],
     queryFn: async() => await getExtraStatData(
       selectedAnalizFactorForExtraStat,
+      selectedVictimForExtraStat,
+      selectedDTPFactorForExtraStat,
+      selectedRegionExtraStat,
       dateStart,
       dateEnd
     ),
@@ -45,5 +54,8 @@ export default function useExtraStatData(): any{
     onChangeDate,
     isLoadingExtraStatData,
     setSelectedAnalizFactorForExtraStat,
+    setSelectedVictimForExtraStat,
+    setSelectedDTPFactorForExtraStat,
+    setSelectedRegionExtraStat
   };
 }

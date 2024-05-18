@@ -40,6 +40,9 @@ export async function getDTPChartData(
 
 export async function getExtraStatData(
   selectedStatsFactorDTP: any,
+  selectedVictimForExtraStat: any,
+  selectedDTPFactorForExtraStat: any,
+  selectedRegionExtraStat: any,
   dateStart: any,
   dateEnd: any
 ){
@@ -48,6 +51,18 @@ export async function getExtraStatData(
 
   if (selectedStatsFactorDTP) {
     params.append("analysis_factor_id", selectedStatsFactorDTP);
+  }
+
+  if (selectedVictimForExtraStat) {
+    params.append("victim", selectedVictimForExtraStat);
+  }
+
+  if (selectedDTPFactorForExtraStat && selectedDTPFactorForExtraStat?.length !== 0) {
+    params.append("factor_dtp_id", selectedDTPFactorForExtraStat?.map((item: any) => item?.id)?.join(','));
+  }
+
+  if (selectedRegionExtraStat && selectedRegionExtraStat?.length !== 0) {
+    params.append("region_code", selectedRegionExtraStat?.map((item: any) => item?.id)?.join(','));
   }
 
   if (dateStart && dateEnd) {

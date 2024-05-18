@@ -23,6 +23,8 @@ const HomeContent: FC = () => {
     victimsData,
     setSelectedStatsVictim,
     selectedStatsVictim,
+    selectedStatsFactorDTP,
+    selectedStatsRegion,
     isLoading,
   } = useDTPChartData()
 
@@ -40,6 +42,9 @@ const HomeContent: FC = () => {
     onChangeDate: onChangeDateExtraStatData,
     isLoadingExtraStatData,
     setSelectedAnalizFactorForExtraStat,
+    setSelectedVictimForExtraStat,
+    setSelectedDTPFactorForExtraStat,
+    setSelectedRegionExtraStat
   } = useExtraStatData()
 
 
@@ -52,6 +57,19 @@ const HomeContent: FC = () => {
   useEffect(() =>{
     setSelectedAnalizFactorForExtraStat(selectedAnalizFactor)
   },[selectedAnalizFactor])
+
+  useEffect(() =>{
+    setSelectedVictimForExtraStat(selectedStatsVictim)
+  },[selectedStatsVictim])
+
+  useEffect(() =>{
+    setSelectedDTPFactorForExtraStat(selectedStatsFactorDTP)
+  },[selectedStatsFactorDTP])
+
+  useEffect(() =>{
+    console.log(selectedStatsRegion)
+    setSelectedRegionExtraStat(selectedStatsRegion)
+  },[selectedStatsRegion])
 
   return (
     <MaxWithLayout>

@@ -64,6 +64,8 @@ export default function useDTPChartData(): any{
     victimsData,
     setSelectedStatsVictim,
     selectedStatsVictim,
+    selectedStatsFactorDTP,
+    selectedStatsRegion,
     onChangeDate,
     isLoading,
   };

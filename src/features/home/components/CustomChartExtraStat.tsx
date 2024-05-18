@@ -26,7 +26,7 @@ const CustomChartExtraStat: React.FC<ChartProps> = ({
   const data = [...chertData]?.map((item: any) => ({
     ycoords: item?.ycoords ? Number(item?.ycoords) : null,
     ycoords1:
-      Number(par1) === item?.xcoords
+      Number(par1) === item?.yCoords
         ? Number(par2.toFixed(0))
         : Number(par3) === item?.xcoords
         ? Number(par4.toFixed(0))
